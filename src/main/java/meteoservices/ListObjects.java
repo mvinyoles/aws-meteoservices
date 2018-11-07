@@ -26,7 +26,7 @@ public class ListObjects implements RequestHandler<RequestBucket, List<ResponseK
     
       System.out.println("Listing objects");
     
-      ListObjectsV2Request lov2req = new ListObjectsV2Request().withBucketName(bucketName).withMaxKeys(2);
+      ListObjectsV2Request lov2req = new ListObjectsV2Request().withBucketName(bucketName).withPrefix(req.parameter + "/" + req.level + "/" + req.date + "/" + req.hour + "/").withDelimiter("/");
       ListObjectsV2Result result;
       ResponseKey resItem;
 
@@ -43,7 +43,6 @@ public class ListObjects implements RequestHandler<RequestBucket, List<ResponseK
         // If there are more than maxKeys keys in the bucket, get a continuation token
         // and list the next objects.
         String token = result.getNextContinuationToken();
-        System.out.println("Next Continuation Token: " + token);
         lov2req.setContinuationToken(token);
       } while (result.isTruncated());
     }
